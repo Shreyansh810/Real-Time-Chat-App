@@ -7,7 +7,7 @@ export const getUsersForSidebar = async (req, res) => {
     try {
         const loggedInUserId = req.user._id;
         const filteredUser = await User.find({ _id: { $ne: loggedInUserId } }).select("-password");
-        return res.status(201).json(filteredUser);
+        return res.status(200).json(filteredUser);
     } catch (error) {
         console.log("Error in getUsersForSidebar", error.message);
         res.status(500).json({ message: "Internal Server error" });
@@ -18,14 +18,14 @@ export const getMessages = async (req, res) => {
     try {
         const { id: userToChatId } = req.params;
         const myId = req.user._id;
-        const message = await Message({
+        const message = await Message.find({
             $or: [
                 { sender: myId, receiver: userToChatId },
                 { sender: userToChatId, receiver: myId },
             ]
         })
 
-        return res.status(201).json(message);
+        return res.status(200).json(message);
     } catch (error) {
         console.log("Error in getMessages", error.message);
         res.status(500).json({ error: "Internal Server Error" });
