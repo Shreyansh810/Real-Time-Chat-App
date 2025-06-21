@@ -18,7 +18,7 @@ const ChatContainer = () => {
     } = useChatStore();
     const { authUser } = useAuthStore();
     const messageEndRef = useRef(null);
-
+    console.log(messages)
     useEffect(() => {
         getMessages(selectedUser._id);
 
@@ -48,7 +48,7 @@ const ChatContainer = () => {
             <ChatHeader />
 
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                {Array.isArray(messages) && messages.map((message) => ( // the array isArray thing is written so that if the value null comes at messages: null, it can still be loaded as array the (chatContainer)
+                {messages.map((message) => ( // the array isArray thing is written so that if the value null comes at messages: null, it can still be loaded as array the (chatContainer)
                     <div
                         key={message._id}
                         className={`chat ${message.senderId === authUser._id ? "chat-end" : "chat-start"}`}
